@@ -29,65 +29,42 @@
 
 package org.firstinspires.ftc.teamcode.SampleOpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-@TeleOp(name="Sample Op SERVO", group="SAMPLE OPMODES")
+
+@TeleOp(name="Sample Op BUTTON", group="SAMPLE OPMODES")
 //@Disabled
-public class SampleOpMode_CRSERVO extends LinearOpMode {
+public class SampleOpMode_BUTTON extends LinearOpMode {
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private CRServo servoCR = null;
-    public final static double SERVO_STOP = 0.5;
-    public double servoSpeed = 0.5;
+
+    DigitalChannel digitalTouch;  // Hardware Device Object
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
 
+        // get a reference to our digitalTouch object.
+        digitalTouch = hardwareMap.get(DigitalChannel.class, "button"); //Rev Button
 
-        servoCR  = hardwareMap.get(CRServo.class, "servo_2");
-        servoCR.setPower(SERVO_STOP);
+        // set the digital channel to input.
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
         waitForStart();
-        runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive())
-        {
-            //Servo forward
-            if (gamepad1.dpad_up && servoCR.getPower() != SERVO_STOP)
-            {
-                servoCR.setPower(SERVO_STOP+servoSpeed);
+
+        while (opModeIsActive()) {
+
+            // send the info back to driver station using telemetry function.
+            // if the digital channel returns true it's HIGH and the button is unpressed.
+            if (digitalTouch.getState() == true) {
+                telemetry.addData("Digital Touch", "Is Not Pressed");
+            } else {
+                telemetry.addData("Digital Touch", "Is Pressed");
             }
-            //Servo backward
-            if (gamepad1.dpad_down && servoCR.getPower() != SERVO_STOP)
-            {
-                servoCR.setPower(SERVO_STOP-servoSpeed);
-            }
-            //increase Servo speed
-            if (gamepad1.right_bumper && servoSpeed < 0.5)
-            {
-                servoSpeed += 0.01;
-                sleep(100);
-            }
-            //decrease Servo speed
-            if (gamepad1.left_bumper && servoSpeed > 0.1)
-            {
-                servoSpeed -= -0.01;
-                sleep(100);
-            }
-            //stop Servo
-            if (gamepad1.b)
-            {
-                servoCR.setPower(SERVO_STOP);
-            }
+
+            telemetry.update();
         }
     }
 }
