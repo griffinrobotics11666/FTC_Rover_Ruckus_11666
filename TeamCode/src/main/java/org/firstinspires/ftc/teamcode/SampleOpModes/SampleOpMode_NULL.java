@@ -29,68 +29,53 @@
 
 package org.firstinspires.ftc.teamcode.SampleOpModes;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Sample Op CRSERVO", group="SAMPLE OPMODES")
+/**
+ * Demonstrates empty OpMode
+ */
+@TeleOp(name = "Sample Op SIMPLE OP", group = "SAMPLE OPMODES")
 //@Disabled
-public class SampleOpMode_CRSERVO extends LinearOpMode {
+public class SampleOpMode_NULL extends OpMode {
 
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private CRServo servoCR = null;
-    public final static double SERVO_STOP = 0.0;
-    public double servoSpeed = 0.5;
+  private ElapsedTime runtime = new ElapsedTime();
 
-    @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+  @Override
+  public void init()
+  {
+      telemetry.addData("Status", "Initialized");
+  }
 
+  /*
+     * Code to run when the op mode is first enabled goes here
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+     */
+  @Override
+  public void init_loop()
+  {
+      //empty init
+  }
 
-        servoCR  = hardwareMap.get(CRServo.class, "CRServo_1");
-        servoCR.setPower(SERVO_STOP);
+  /*
+   * This method will be called ONCE when start is pressed
+   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
+   */
+  @Override
+  public void start()
+  {
+      runtime.reset();
+  }
 
-        waitForStart();
-        runtime.reset();
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive())
-        {
-            //Servo forward
-            if (gamepad1.dpad_up)
-            {
-                servoCR.setPower(SERVO_STOP+servoSpeed);
-            }
-            //Servo backward
-            if (gamepad1.dpad_down )
-            {
-                servoCR.setPower(SERVO_STOP-servoSpeed);
-            }
-            //increase Servo speed
-            if (gamepad1.right_bumper && servoSpeed < 0.5)
-            {
-                servoSpeed += 0.01;
-                sleep(100);
-            }
-            //decrease Servo speed
-            if (gamepad1.left_bumper && servoSpeed > 0.1)
-            {
-                servoSpeed -= 0.01;
-                sleep(100);
-            }
-            //stop Servo
-            if (gamepad1.b)
-            {
-                servoCR.setPower(SERVO_STOP);
-            }
-
-            telemetry.addData("Servo power ", servoCR.getPower());
-            telemetry.addData("Servo speed ", servoSpeed);
-            telemetry.update();
-        }
-    }
+  /*
+   * This method will be called repeatedly in a loop
+   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
+   */
+  @Override
+  public void loop()
+  {
+      telemetry.addData("Status", "Run Time: " + runtime.toString());
+  }
 }

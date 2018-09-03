@@ -116,7 +116,6 @@ public class SampleOpMode_SERVO extends LinearOpMode {
             servo.setPosition(servoPosition);
             servo1DisplaySpeed = servo1Speed*100;  //for display purposes.  Unnecessary
 
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Servo Position", "%.2f", servo.getPosition()); // Display current position of servo
