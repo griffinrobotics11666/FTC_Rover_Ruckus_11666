@@ -42,7 +42,7 @@ public class SampleOpMode_DCMOTOR extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor motor = null;
+    private DcMotor motor;
     public double maxSpeed = 1;
 
     @Override
@@ -76,7 +76,7 @@ public class SampleOpMode_DCMOTOR extends LinearOpMode {
             motorPower  = -gamepad1.left_stick_y ;
 
             motorPower = Range.clip(motorPower, -1*maxSpeed, maxSpeed);
-            motorPower = Range.clip(motorPower, -1, 1); // double checking to prevent crash of program
+            //motorPower = Range.clip(motorPower, -1, 1); // double checking to prevent crash of program
             if (gamepad1.dpad_up)
             {
                 motor.setDirection(DcMotor.Direction.FORWARD);
@@ -90,6 +90,7 @@ public class SampleOpMode_DCMOTOR extends LinearOpMode {
                 sleep(200);
                 maxSpeed += 0.1;
             }
+
             if (gamepad1.left_bumper && maxSpeed > .1)
             {
                 sleep(200);

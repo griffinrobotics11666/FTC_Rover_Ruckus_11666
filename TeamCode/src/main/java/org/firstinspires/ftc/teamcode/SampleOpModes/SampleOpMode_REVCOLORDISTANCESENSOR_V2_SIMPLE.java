@@ -81,8 +81,7 @@ public class SampleOpMode_REVCOLORDISTANCESENSOR_V2_SIMPLE extends LinearOpMode 
         sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
 
         // sometimes it helps to multiply the raw RGB values with a scale factor
-        // to amplify/attentuate the measured values.
-        final double SCALE_FACTOR = 255;
+        // to amplify/attentuate the measured value
 
 
         // wait for the start button to be pressed.
